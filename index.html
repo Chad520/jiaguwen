@@ -3,563 +3,346 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>甲骨文探秘 — 殷墟文字查询系统</title>
+<title>甲骨文探秘 — 殷墟文字查询</title>
 <style>
   :root {
     --bone: #f5e6c8;
-    --bone-dark: #d4c5a0;
-    --ink: #2c1810;
-    --ink-light: #5a3e2b;
+    --bone-dark: #c4a97d;
+    --ink: #1a0f0a;
     --accent: #8b4513;
-    --accent2: #c41e3a;
     --paper: #fdf5e6;
-    --paper-dark: #e8d5b7;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: "Noto Serif SC", "STSong", "SimSun", "Songti SC", serif;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     background: var(--paper);
     color: var(--ink);
     min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 50% 0%, rgba(139,69,19,0.08) 0%, transparent 60%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q32 30 30 55 Q28 30 30 5Z' fill='none' stroke='%23d4c5a0' stroke-width='0.3' opacity='0.5'/%3E%3C/svg%3E");
   }
 
-  /* ---- Header ---- */
   .header {
-    background: linear-gradient(180deg, #2c1810 0%, #4a2c17 100%);
+    background: linear-gradient(180deg, #1a0f0a 0%, #3d1f10 100%);
     color: var(--bone);
     text-align: center;
-    padding: 40px 20px 50px;
-    position: relative;
-    overflow: hidden;
+    padding: 30px 20px 40px;
   }
-  .header::before {
-    content: "";
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='50' font-size='40' fill='%23d4c5a0' opacity='0.06'%3E𖦹%3C/text%3E%3Ctext x='50' y='90' font-size='30' fill='%23d4c5a0' opacity='0.04'%3E𖦹%3C/text%3E%3C/svg%3E");
-  }
-  .header h1 {
-    font-size: clamp(28px, 6vw, 48px);
-    letter-spacing: 6px;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .header .subtitle {
-    font-size: clamp(14px, 3vw, 18px);
-    opacity: 0.8;
-    letter-spacing: 3px;
-  }
-  .header .oracle-seal {
-    display: inline-block;
-    width: 60px; height: 60px;
-    border: 2px solid var(--bone-dark);
-    border-radius: 50%;
-    line-height: 56px;
-    font-size: 28px;
-    margin-bottom: 15px;
-    opacity: 0.7;
-  }
+  .header .icon { font-size: 48px; margin-bottom: 8px; }
+  .header h1 { font-size: 32px; letter-spacing: 4px; }
+  .header p { font-size: 14px; opacity: 0.7; margin-top: 6px; letter-spacing: 2px; }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
+  .container { max-width: 700px; margin: 0 auto; padding: 0 14px; }
 
-  /* ---- Search Section ---- */
+  /* Search */
   .search-section {
-    background: white;
-    border-radius: 16px;
-    padding: 28px 20px;
-    margin-top: -25px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 16px;
+    margin-top: -20px;
     position: relative;
     z-index: 2;
-    box-shadow: 0 4px 24px rgba(44,24,16,0.12);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     border: 1px solid var(--bone-dark);
   }
-  .search-label {
-    font-size: 15px;
-    color: var(--ink-light);
-    margin-bottom: 12px;
-    letter-spacing: 2px;
-    text-align: center;
-  }
-  .search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  .search-label { text-align: center; font-size: 14px; color: #666; margin-bottom: 12px; }
+  .search-row { display: flex; gap: 8px; }
   .search-input {
-    flex: 1;
-    padding: 14px 18px;
-    font-size: 20px;
-    border: 2px solid var(--bone-dark);
-    border-radius: 12px;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s;
+    flex: 1; padding: 12px 14px; font-size: 20px;
+    border: 2px solid #d4c5a0; border-radius: 10px;
+    background: #fdf5e6; outline: none;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
   }
-  .search-input:focus {
-    border-color: var(--accent);
-  }
+  .search-input:focus { border-color: var(--accent); }
   .search-btn {
-    padding: 14px 28px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
+    padding: 12px 22px; background: var(--accent); color: #fff;
+    border: none; border-radius: 10px; font-size: 16px;
+    cursor: pointer; letter-spacing: 1px;
     font-family: inherit;
-    cursor: pointer;
-    letter-spacing: 2px;
-    transition: background 0.2s;
   }
-  .search-btn:hover { background: #6b3410; }
-  .search-btn:active { background: #52280c; }
+  .search-btn:active { background: #6b3410; }
 
-  .result-card {
-    background: var(--paper);
-    border: 2px solid var(--bone-dark);
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    display: none;
-  }
-  .result-card.show { display: block; animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .oracle-char-display {
-    width: 120px; height: 120px;
-    margin: 0 auto 16px;
-    background: white;
-    border: 3px solid var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .oracle-char-display svg {
-    width: 80px; height: 80px;
-  }
-  .result-modern {
-    font-size: 14px;
-    color: var(--ink-light);
-    margin-bottom: 6px;
-  }
-  .result-modern span {
-    font-size: 36px;
-    color: var(--ink);
-    font-weight: bold;
-  }
-  .result-desc {
-    font-size: 14px;
-    color: var(--ink-light);
-    line-height: 1.7;
-  }
-  .result-category {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 4px 14px;
-    background: var(--bone-dark);
-    border-radius: 20px;
-    font-size: 12px;
-    color: var(--ink);
-  }
-
-  /* ---- Quick Chars ---- */
-  .quick-chars {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 12px;
-  }
+  .quick-chars { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
   .quick-char {
-    width: 44px; height: 44px;
-    background: white;
-    border: 1.5px solid var(--bone-dark);
-    border-radius: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: inherit;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 40px; height: 40px; background: #fff;
+    border: 1.5px solid var(--bone-dark); border-radius: 8px;
+    font-size: 18px; cursor: pointer; transition: 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; color: var(--ink);
   }
-  .quick-char:hover { background: var(--bone); border-color: var(--accent); transform: scale(1.08); }
-  .quick-char:active { background: var(--bone-dark); }
+  .quick-char:active { background: var(--bone); transform: scale(0.95); }
 
-  /* ---- Character Grid ---- */
+  /* Result card */
+  .result-card {
+    background: #faf6ee; border: 2px solid var(--bone-dark);
+    border-radius: 12px; padding: 20px; text-align: center;
+    margin-top: 14px; display: none;
+  }
+  .result-card.show { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .oracle-display {
+    width: 140px; height: 140px; margin: 0 auto 14px;
+    background: #fff; border: 3px solid var(--accent);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .oracle-display svg { width: 100px; height: 100px; }
+  .result-char { font-size: 36px; font-weight: bold; color: var(--ink); }
+  .result-desc { font-size: 14px; color: #555; line-height: 1.8; margin-top: 6px; }
+  .result-cat { display: inline-block; margin-top: 10px; padding: 4px 14px;
+    background: #e8d5b7; border-radius: 20px; font-size: 12px; color: #5a3e2b; }
+
+  .not-found { text-align: center; padding: 20px; color: #999; font-size: 14px; }
+  .not-found .hint { margin-top: 8px; font-size: 12px; color: #bbb; }
+
+  /* Sections */
   .section-title {
-    text-align: center;
-    font-size: 22px;
-    letter-spacing: 4px;
-    margin: 40px 0 20px;
-    color: var(--ink);
-    position: relative;
+    text-align: center; font-size: 20px; letter-spacing: 3px;
+    margin: 36px 0 18px; color: var(--ink);
   }
   .section-title::after {
-    content: "";
-    display: block;
-    width: 40px; height: 3px;
-    background: var(--accent);
-    margin: 10px auto 0;
-    border-radius: 2px;
+    content: ""; display: block; width: 30px; height: 2px;
+    background: var(--accent); margin: 8px auto 0; border-radius: 1px;
   }
 
-  .char-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
+  /* Intro */
+  .intro {
+    background: #fff; border-radius: 14px; padding: 24px 18px;
+    margin: 28px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--bone-dark); line-height: 2; font-size: 14px; color: #555;
   }
+  .intro h2 { text-align: center; font-size: 18px; letter-spacing: 2px; margin-bottom: 16px; color: var(--ink); }
+  .intro strong { color: var(--ink); }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .tl-year { background: var(--accent); color: #fff; padding: 3px 12px; border-radius: 16px; font-size: 12px; white-space: nowrap; flex-shrink: 0; font-weight: bold; }
+  .tl-text { font-size: 13px; color: #555; line-height: 1.7; }
+  .tl-text strong { color: var(--ink); }
+
+  /* Char grid */
+  .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; }
   .char-card {
-    background: white;
-    border: 1px solid var(--bone-dark);
-    border-radius: 12px;
-    padding: 14px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
+    background: #fff; border: 1px solid var(--bone-dark); border-radius: 10px;
+    padding: 12px 6px; text-align: center; cursor: pointer; transition: 0.15s;
   }
-  .char-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(44,24,16,0.1); transform: translateY(-2px); }
-  .char-card .modern { font-size: 28px; color: var(--ink); font-weight: bold; }
-  .char-card .ancient { margin: 6px 0; }
-  .char-card .ancient svg { width: 48px; height: 48px; }
-  .char-card .meaning { font-size: 12px; color: var(--ink-light); }
+  .char-card:active { border-color: var(--accent); background: #fefcf7; }
+  .char-card .modern { font-size: 26px; font-weight: bold; color: var(--ink); }
+  .char-card .ancient svg { width: 52px; height: 52px; margin: 4px 0; }
+  .char-card .meaning { font-size: 11px; color: #999; }
 
-  /* ---- Intro Section ---- */
-  .intro-section {
-    background: white;
-    border-radius: 16px;
-    padding: 32px 24px;
-    margin: 32px auto;
-    box-shadow: 0 2px 16px rgba(44,24,16,0.06);
-    border: 1px solid var(--bone-dark);
-    line-height: 2;
-    font-size: 15px;
-    color: var(--ink-light);
-  }
-  .intro-section h2 {
-    text-align: center;
-    font-size: 20px;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
-    color: var(--ink);
-  }
-  .intro-section strong { color: var(--ink); }
+  /* Footer */
+  .footer { text-align: center; padding: 36px 20px; font-size: 12px; color: #c4a97d; letter-spacing: 2px; }
 
-  /* ---- Timeline ---- */
-  .timeline {
-    margin: 32px 0;
-    padding: 0 10px;
-  }
-  .timeline-item {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-    align-items: flex-start;
-  }
-  .timeline-year {
-    background: var(--accent);
-    color: white;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    white-space: nowrap;
-    font-weight: bold;
-    flex-shrink: 0;
-  }
-  .timeline-text { font-size: 14px; color: var(--ink-light); line-height: 1.7; }
-  .timeline-text strong { color: var(--ink); }
-
-  /* ---- Footer ---- */
-  .footer {
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 13px;
-    color: var(--bone-dark);
-    letter-spacing: 2px;
-  }
-
-  /* ---- Not found state ---- */
-  .not-found {
-    text-align: center;
-    padding: 20px;
-    color: var(--ink-light);
-    font-size: 14px;
-  }
-  .not-found .hint {
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--bone-dark);
-  }
-
-  /* ---- Toast ---- */
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--ink);
-    color: var(--bone);
-    padding: 10px 24px;
-    border-radius: 24px;
-    font-size: 14px;
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
+  /* Toast */
+  .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1a0f0a; color: #f5e6c8; padding: 10px 22px; border-radius: 20px; font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
   .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="oracle-seal">骨</div>
+  <div class="icon">🐢</div>
   <h1>甲骨文探秘</h1>
-  <p class="subtitle">三千年前的中国文字 · 殷墟契文</p>
+  <p>三千六百年前的文字密码</p>
 </header>
 
 <div class="container">
 
-  <!-- Search -->
   <section class="search-section">
-    <p class="search-label">🔍 输入一个汉字，查看它的甲骨文形态</p>
-    <div class="search-box">
+    <p class="search-label">输入一个汉字，查看它的甲骨文形态</p>
+    <div class="search-row">
       <input type="text" class="search-input" id="searchInput" maxlength="1" placeholder="如：日、月、人、马..." autocomplete="off">
       <button class="search-btn" id="searchBtn">查询</button>
     </div>
     <div class="result-card" id="resultCard"></div>
-    <p style="text-align:center;font-size:13px;color:var(--ink-light);margin-top:8px;">快速试试：</p>
+    <p style="text-align:center;font-size:12px;color:#999;margin-top:10px;">快速试试：</p>
     <div class="quick-chars" id="quickChars"></div>
   </section>
 
-  <!-- Intro -->
-  <section class="intro-section" id="intro">
+  <section class="intro">
     <h2>关于甲骨文</h2>
-    <p>
-      <strong>甲骨文</strong>是中国迄今发现的最早的成熟文字系统，距今约 <strong>3600</strong> 年。
-      刻写在龟甲和兽骨上，主要出土于<strong>河南安阳殷墟</strong>，是商朝晚期的王室占卜记录。
-    </p>
-    <p style="margin-top:12px;">
-      1899 年，学者<strong>王懿荣</strong>在中药"龙骨"上偶然发现了这些刻痕，揭开了甲骨文研究的序幕。
-      目前已出土甲骨约 <strong>15 万片</strong>，发现单字约 <strong>5000 个</strong>，其中已被识读的约 <strong>1500 字</strong>。
-    </p>
-    <p style="margin-top:12px;">
-      甲骨文以<strong>象形、会意、形声</strong>为主要造字方法，是汉字演变之源。2017年，
-      甲骨文入选<strong>联合国世界记忆名录</strong>。
-    </p>
+    <p><strong>甲骨文</strong>是中国迄今发现的最早的成熟文字系统，距今约 <strong>3600</strong> 年。刻写在龟甲和兽骨上，主要出土于<strong>河南安阳殷墟</strong>，是商朝晚期的王室占卜记录。</p>
+    <p style="margin-top:12px;">1899 年，学者<strong>王懿荣</strong>在中药"龙骨"上偶然发现刻痕，揭开了甲骨文研究序幕。目前已出土甲骨约 <strong>15 万片</strong>，发现单字约 <strong>5000 个</strong>，已识读约 <strong>1500 字</strong>。</p>
+    <p style="margin-top:12px;">甲骨文以<strong>象形、会意、形声</strong>为主要造字方法，是汉字演变之源。2017年入选<strong>联合国世界记忆名录</strong>。</p>
   </section>
 
-  <!-- History Timeline -->
   <h2 class="section-title">发现历程</h2>
   <div class="timeline">
-    <div class="timeline-item">
-      <span class="timeline-year">1899</span>
-      <p class="timeline-text"><strong>王懿荣</strong>在中药龙骨上发现刻画符号，认定为古文字，成为"甲骨文发现第一人"。</p>
-    </div>
-    <div class="timeline-item">
-      <span class="timeline-year">1903</span>
-      <p class="timeline-text"><strong>刘鹗</strong>出版《铁云藏龟》，是第一部甲骨文著录书。</p>
-    </div>
-    <div class="timeline-item">
-      <span class="timeline-year">1913</span>
-      <p class="timeline-text"><strong>罗振玉</strong>确定甲骨出土地点为河南安阳小屯村（殷墟）。</p>
-    </div>
-    <div class="timeline-item">
-      <span class="timeline-year">1917</span>
-      <p class="timeline-text"><strong>王国维</strong>用甲骨文考证商代帝王世系，开创"二重证据法"。</p>
-    </div>
-    <div class="timeline-item">
-      <span class="timeline-year">1928–1937</span>
-      <p class="timeline-text"><strong>中央研究院</strong>在殷墟进行15次大规模科学发掘，出土甲骨2万余片。</p>
-    </div>
-    <div class="timeline-item">
-      <span class="timeline-year">2017</span>
-      <p class="timeline-text">甲骨文入选<strong>联合国教科文组织</strong>《世界记忆名录》。</p>
-    </div>
+    <div class="tl-item"><span class="tl-year">1899</span><p class="tl-text"><strong>王懿荣</strong>在龙骨上发现刻画符号，认定为古文字。</p></div>
+    <div class="tl-item"><span class="tl-year">1903</span><p class="tl-text"><strong>刘鹗</strong>出版《铁云藏龟》，第一部甲骨文著录书。</p></div>
+    <div class="tl-item"><span class="tl-year">1913</span><p class="tl-text"><strong>罗振玉</strong>确定出土地点为安阳小屯村（殷墟）。</p></div>
+    <div class="tl-item"><span class="tl-year">1917</span><p class="tl-text"><strong>王国维</strong>用甲骨文考证商王世系，开创"二重证据法"。</p></div>
+    <div class="tl-item"><span class="tl-year">1928-1937</span><p class="tl-text"><strong>中央研究院</strong>在殷墟进行15次科学发掘，出土甲骨2万余片。</p></div>
+    <div class="tl-item"><span class="tl-year">2017</span><p class="tl-text">甲骨文入选<strong>联合国教科文组织</strong>《世界记忆名录》。</p></div>
   </div>
 
-  <!-- Full Character Gallery -->
-  <h2 class="section-title">常用字甲骨文对照</h2>
+  <h2 class="section-title">甲骨文对照表（{{count}}字）</h2>
   <div class="char-grid" id="charGrid"></div>
 
 </div>
 
-<footer class="footer">
-  <p>殷墟甲骨 · 文明的记忆 · 世界记忆遗产</p>
-</footer>
-
+<footer class="footer"><p>殷墟甲骨 · 世界记忆遗产</p></footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Oracle Bone Script Data ──────────────────────────────
-// SVG drawings are simplified representations of oracle bone glyphs
+// Oracle bone script data — SVG paths with BOLD strokes for mobile visibility
+// stroke-width values are 4-6 (viewBox 0-80) for clear rendering on phone screens
 const oracleData = {
-  // Nature
-  "日": { svg: '<circle cx="40" cy="40" r="22" fill="none" stroke="#2c1810" stroke-width="3"/><circle cx="40" cy="40" r="5" fill="#2c1810"/>', desc: "象太阳之形，外圆像太阳轮廓，中间一点表光芒。", cat: "象形·自然" },
-  "月": { svg: '<path d="M25 10 Q40 25 40 40 Q40 55 25 70 Q10 55 10 40 Q10 25 25 10Z" fill="none" stroke="#2c1810" stroke-width="3"/>', desc: "象月牙之形，因月常缺，故以残缺之形区别于日。", cat: "象形·自然" },
-  "山": { svg: '<polyline points="10,65 25,20 35,45 45,12 55,40 70,65" fill="none" stroke="#2c1810" stroke-width="3" stroke-linejoin="round"/>', desc: "象三座山峰并立之形，山峰高低起伏。", cat: "象形·自然" },
-  "水": { svg: '<path d="M20 15 Q35 35 20 55 M40 15 Q55 35 40 55 M60 15 Q75 35 60 55" fill="none" stroke="#2c1810" stroke-width="3"/>', desc: "象水流之形，中间为主流，两侧为支流。", cat: "象形·自然" },
-  "火": { svg: '<path d="M40 10 Q30 35 20 55 Q20 70 40 70 Q60 70 60 55 Q50 35 40 10Z" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象火焰升腾之形，三点代表火星飞溅。", cat: "象形·自然" },
-  "雨": { svg: '<line x1="15" y1="15" x2="65" y2="15" stroke="#2c1810" stroke-width="3"/><line x1="25" y1="5" x2="25" y2="20" stroke="#2c1810" stroke-width="2"/><line x1="55" y1="5" x2="55" y2="20" stroke="#2c1810" stroke-width="2"/><line x1="20" y1="30" x2="20" y2="55" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="35" x2="40" y2="65" stroke="#2c1810" stroke-width="2"/><line x1="60" y1="30" x2="60" y2="55" stroke="#2c1810" stroke-width="2"/>', desc: "上为云层，下为雨滴下落之形。", cat: "象形·自然" },
-  "云": { svg: '<path d="M15 35 Q20 18 40 18 Q60 18 65 35 Q50 30 40 35 Q30 40 15 35Z" fill="none" stroke="#2c1810" stroke-width="3"/>', desc: "象云气卷曲回旋之形，上加一横表天。", cat: "象形·自然" },
-  "田": { svg: '<rect x="14" y="14" width="52" height="52" fill="none" stroke="#2c1810" stroke-width="3"/><line x1="40" y1="14" x2="40" y2="66" stroke="#2c1810" stroke-width="2"/><line x1="14" y1="40" x2="66" y2="40" stroke="#2c1810" stroke-width="2"/>', desc: "象田地阡陌纵横之形，四格为田。", cat: "象形·自然" },
-  "土": { svg: '<line x1="20" y1="60" x2="60" y2="60" stroke="#2c1810" stroke-width="3"/><circle cx="40" cy="35" r="18" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "上为土块，下为地面，象地上土块之形。", cat: "象形·自然" },
-  "石": { svg: '<path d="M15 50 L25 20 L55 20 L65 50Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><rect x="25" y="50" width="30" height="16" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "山崖下有石块，象岩石之形。", cat: "象形·自然" },
+  // ── Nature ──
+  "日": { svg: '<circle cx="40" cy="40" r="24" fill="none" stroke="#1a0f0a" stroke-width="5"/><circle cx="40" cy="40" r="6" fill="#1a0f0a"/>', desc: "象太阳之形。外圆为太阳轮廓，中间一点表光芒。", cat: "象形·自然" },
+  "月": { svg: '<path d="M22 8 Q40 22 40 40 Q40 58 22 72 Q8 58 8 40 Q8 22 22 8Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象月牙之形。月常缺，故以残月之形区别于日。", cat: "象形·自然" },
+  "山": { svg: '<polyline points="8,68 26,16 38,48 46,10 56,42 72,68" fill="none" stroke="#1a0f0a" stroke-width="5" stroke-linejoin="round"/>', desc: "象三座山峰并立之形，山峰高低起伏。", cat: "象形·自然" },
+  "水": { svg: '<path d="M18 14 Q34 36 18 58 M36 14 Q52 36 36 58 M54 14 Q70 36 54 58" fill="none" stroke="#1a0f0a" stroke-width="5" stroke-linecap="round"/>', desc: "象水流之形。中间为主流，两侧为支流。", cat: "象形·自然" },
+  "火": { svg: '<path d="M40 6 Q28 34 16 52 Q16 70 40 70 Q64 70 64 52 Q52 34 40 6Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象火焰升腾之形，火星四溅。", cat: "象形·自然" },
+  "雨": { svg: '<line x1="12" y1="14" x2="68" y2="14" stroke="#1a0f0a" stroke-width="5"/><line x1="26" y1="4" x2="26" y2="20" stroke="#1a0f0a" stroke-width="4"/><line x1="54" y1="4" x2="54" y2="20" stroke="#1a0f0a" stroke-width="4"/><line x1="18" y1="32" x2="18" y2="58" stroke="#1a0f0a" stroke-width="4"/><line x1="40" y1="36" x2="40" y2="66" stroke="#1a0f0a" stroke-width="4"/><line x1="62" y1="32" x2="62" y2="58" stroke="#1a0f0a" stroke-width="4"/>', desc: "上为云层，下为雨滴下落。", cat: "象形·自然" },
+  "云": { svg: '<path d="M12 36 Q20 14 40 14 Q60 14 68 36 Q52 30 40 34 Q28 38 12 36Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象云气卷曲回旋之形。", cat: "象形·自然" },
+  "田": { svg: '<rect x="12" y="12" width="56" height="56" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="12" x2="40" y2="68" stroke="#1a0f0a" stroke-width="4"/><line x1="12" y1="40" x2="68" y2="40" stroke="#1a0f0a" stroke-width="4"/>', desc: "象田地阡陌纵横之形。", cat: "象形·自然" },
+  "土": { svg: '<line x1="16" y1="62" x2="64" y2="62" stroke="#1a0f0a" stroke-width="5"/><ellipse cx="40" cy="34" rx="22" ry="20" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "上为土块，下为地面。", cat: "象形·自然" },
+  "石": { svg: '<path d="M12 52 L28 18 L52 18 L68 52Z" fill="none" stroke="#1a0f0a" stroke-width="5"/><rect x="26" y="52" width="28" height="16" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "山崖下有石块。", cat: "象形·自然" },
 
-  // Animals
-  "马": { svg: '<path d="M15 40 Q20 15 40 18 Q55 15 60 30 L65 35 M60 30 L60 55 M40 18 L35 55 M20 30 L15 55 M35 55 L60 55" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象马之形，长脸、鬃毛、四蹄，栩栩如生。", cat: "象形·动物" },
-  "牛": { svg: '<path d="M20 30 Q35 10 40 18 Q45 10 60 30 L40 60Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><line x1="20" y1="50" x2="60" y2="50" stroke="#2c1810" stroke-width="2"/>', desc: "象牛头正视图，突出双角弯曲向上。", cat: "象形·动物" },
-  "羊": { svg: '<path d="M20 30 L30 15 L40 25 L50 15 L60 30 L40 60Z" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象羊头正视图，角向下弯曲。", cat: "象形·动物" },
-  "鱼": { svg: '<path d="M15 35 Q25 15 40 18 Q55 15 65 35 Q55 55 40 58 Q25 55 15 35Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><circle cx="55" cy="35" r="4" fill="#2c1810"/><path d="M65 35 L75 28 L75 42Z" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象鱼之形，有鳞、鳍、尾，形象生动。", cat: "象形·动物" },
-  "鸟": { svg: '<circle cx="40" cy="25" r="12" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M40 37 L40 55 M30 45 L40 40 L50 45" fill="none" stroke="#2c1810" stroke-width="2"/><line x1="47" y1="16" x2="52" y2="10" stroke="#2c1810" stroke-width="2"/>', desc: "象鸟之形，有头、身、尾和爪子。", cat: "象形·动物" },
-  "龟": { svg: '<ellipse cx="40" cy="35" rx="22" ry="16" fill="none" stroke="#2c1810" stroke-width="2.5"/><circle cx="40" cy="18" r="9" fill="none" stroke="#2c1810" stroke-width="2"/><line x1="25" y1="50" x2="20" y2="65" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="50" x2="40" y2="65" stroke="#2c1810" stroke-width="2"/><line x1="55" y1="50" x2="60" y2="65" stroke="#2c1810" stroke-width="2"/>', desc: "象乌龟之形，突出龟壳、头和四足。甲骨文多使用龟甲刻写。", cat: "象形·动物" },
-  "虎": { svg: '<path d="M10 25 L25 15 L35 20 L45 12 L50 20 L65 25 L60 55 L15 60Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><circle cx="55" cy="22" r="3" fill="#2c1810"/>', desc: "象虎之形，大口、利齿、条纹、利爪。", cat: "象形·动物" },
-  "鹿": { svg: '<circle cx="40" cy="30" r="10" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M35 18 L15 8 M35 18 L25 5 M35 18 L40 6 M35 18 L55 6" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M30 40 L25 60 M50 40 L55 60" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象鹿之形，突出多叉鹿角，形态优雅。", cat: "象形·动物" },
-  "犬": { svg: '<path d="M20 25 L20 55 M35 20 L35 58 M60 25 L55 55 M20 35 L55 35" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M60 25 L68 18" stroke="#2c1810" stroke-width="2"/>', desc: "象狗侧视之形，卷尾张口。", cat: "象形·动物" },
-  "象": { svg: '<path d="M10 40 Q25 15 45 20 Q60 15 70 35 L68 55 Q50 60 30 58 Q15 55 10 40Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M68 35 L75 20 M68 40 L78 38" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象大象之形，长鼻突出为最显著特征。", cat: "象形·动物" },
+  // ── Animals ──
+  "马": { svg: '<path d="M12 42 Q18 12 40 14 Q56 10 62 28 L68 32 M62 28 L62 56 M40 14 L36 56 M20 28 L16 56 M34 52 L62 52" fill="none" stroke="#1a0f0a" stroke-width="4.5"/>', desc: "象马之形。长脸、鬃毛、四蹄，栩栩如生。", cat: "象形·动物" },
+  "牛": { svg: '<path d="M18 28 Q34 6 40 14 Q46 6 62 28 L40 62Z" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="18" y1="50" x2="62" y2="50" stroke="#1a0f0a" stroke-width="4"/>', desc: "象牛头正视之形，双角弯曲向上。", cat: "象形·动物" },
+  "羊": { svg: '<path d="M18 32 L32 12 L40 26 L48 12 L62 32 L40 62Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象羊头正视之形，角向下弯曲。", cat: "象形·动物" },
+  "鱼": { svg: '<path d="M12 34 Q24 12 40 14 Q56 12 68 34 Q56 56 40 58 Q24 56 12 34Z" fill="none" stroke="#1a0f0a" stroke-width="4.5"/><circle cx="56" cy="34" r="5" fill="#1a0f0a"/><path d="M68 34 L78 26 L78 42Z" fill="none" stroke="#1a0f0a" stroke-width="3"/>', desc: "象鱼之形，有鳞、鳍、尾。", cat: "象形·动物" },
+  "鸟": { svg: '<circle cx="40" cy="24" r="14" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M40 38 L40 56 M28 46 L40 40 L52 46" fill="none" stroke="#1a0f0a" stroke-width="3.5"/><line x1="48" y1="14" x2="56" y2="6" stroke="#1a0f0a" stroke-width="3.5"/>', desc: "象鸟之形，有头、身、尾和爪子。", cat: "象形·动物" },
+  "龟": { svg: '<ellipse cx="40" cy="36" rx="24" ry="18" fill="none" stroke="#1a0f0a" stroke-width="5"/><circle cx="40" cy="16" r="10" fill="none" stroke="#1a0f0a" stroke-width="4"/><line x1="24" y1="52" x2="18" y2="68" stroke="#1a0f0a" stroke-width="3.5"/><line x1="40" y1="54" x2="40" y2="68" stroke="#1a0f0a" stroke-width="3.5"/><line x1="56" y1="52" x2="62" y2="68" stroke="#1a0f0a" stroke-width="3.5"/>', desc: "象龟之形，突出龟壳、头和四足。甲骨文多用龟甲刻写。", cat: "象形·动物" },
+  "虎": { svg: '<path d="M8 24 L26 12 L38 18 L48 10 L54 18 L72 24 L64 56 L14 60Z" fill="none" stroke="#1a0f0a" stroke-width="4.5"/><circle cx="58" cy="20" r="4" fill="#1a0f0a"/>', desc: "象虎之形，大口利齿，身有斑纹。", cat: "象形·动物" },
+  "鹿": { svg: '<circle cx="40" cy="30" r="12" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M34 16 L12 6 M34 16 L22 2 M34 16 L44 4 M34 16 L60 2" fill="none" stroke="#1a0f0a" stroke-width="3.5"/><path d="M28 42 L24 64 M52 42 L56 64" fill="none" stroke="#1a0f0a" stroke-width="3.5"/>', desc: "象鹿之形，突出多叉鹿角。", cat: "象形·动物" },
+  "犬": { svg: '<path d="M18 24 L18 58 M36 18 L36 60 M62 24 L58 58 M18 36 L58 36" fill="none" stroke="#1a0f0a" stroke-width="4.5"/><path d="M62 24 L72 16" stroke="#1a0f0a" stroke-width="4"/>', desc: "象狗侧视之形，卷尾张口。", cat: "象形·动物" },
+  "象": { svg: '<path d="M8 42 Q24 12 48 16 Q64 12 72 34 L70 56 Q52 62 30 60 Q14 56 8 42Z" fill="none" stroke="#1a0f0a" stroke-width="4.5"/><path d="M70 32 L78 18 M70 36 L82 34" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象大象之形，长鼻最为突出。", cat: "象形·动物" },
 
-  // Human & Body
-  "人": { svg: '<path d="M25 65 Q40 15 40 15 Q40 15 55 65" fill="none" stroke="#2c1810" stroke-width="3.5"/>', desc: "象人侧立之形，有头、身、臂、腿。", cat: "象形·人体" },
-  "大": { svg: '<path d="M40 10 L40 65 M15 35 L65 35" fill="none" stroke="#2c1810" stroke-width="3.5"/>', desc: "象人正面站立、双臂张开之形，寓意"大"。", cat: "象形·人体" },
-  "天": { svg: '<circle cx="40" cy="18" r="10" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M40 28 L40 65 M20 45 L60 45" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "人之上为天，突出头部，以示头顶之天。", cat: "会意·人体" },
-  "目": { svg: '<rect x="18" y="20" width="44" height="40" rx="8" fill="none" stroke="#2c1810" stroke-width="2.5"/><circle cx="40" cy="40" r="10" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象眼睛之形，外为眼眶，内为眼珠。", cat: "象形·人体" },
-  "耳": { svg: '<path d="M15 25 Q30 15 35 35 Q30 55 15 65" fill="none" stroke="#2c1810" stroke-width="3"/><path d="M35 30 Q50 28 55 45" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象耳朵轮廓之形，外形逼真。", cat: "象形·人体" },
-  "口": { svg: '<rect x="22" y="25" width="36" height="30" rx="4" fill="none" stroke="#2c1810" stroke-width="3"/>', desc: "象张开的口之形，上下唇分明。", cat: "象形·人体" },
-  "手": { svg: '<path d="M20 20 L20 55 M20 30 L8 22 M20 32 L8 35 M20 38 L8 48 M20 42 L12 58" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象手掌之形，五指分开。", cat: "象形·人体" },
-  "足": { svg: '<circle cx="35" cy="25" r="12" fill="none" stroke="#2c1810" stroke-width="2.5"/><line x1="47" y1="25" x2="55" y2="60" stroke="#2c1810" stroke-width="3"/>', desc: "上为膝盖，下为脚掌，象腿足之形。", cat: "象形·人体" },
-  "心": { svg: '<path d="M40 20 Q25 28 25 42 Q25 58 40 68 Q55 58 55 42 Q55 28 40 20Z" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象心脏之形，内有瓣膜轮廓。古人以心为思维器官。", cat: "象形·人体" },
-  "女": { svg: '<path d="M40 10 L40 65 M25 25 L55 55 M55 25 L25 55" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象女子跪坐之形，双手交叉于胸前。", cat: "象形·人体" },
-  "子": { svg: '<circle cx="40" cy="18" r="12" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M40 30 L40 55 M28 40 L52 40" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象婴儿之形，大头、双臂、裹于襁褓中。", cat: "象形·人体" },
+  // ── Human & Body ──
+  "人": { svg: '<path d="M24 68 Q40 8 40 8 Q40 8 56 68" fill="none" stroke="#1a0f0a" stroke-width="6"/>', desc: "象人侧立之形，有头、身、臂、腿。", cat: "象形·人体" },
+  "大": { svg: '<line x1="40" y1="6" x2="40" y2="68" stroke="#1a0f0a" stroke-width="6"/><line x1="12" y1="36" x2="68" y2="36" stroke="#1a0f0a" stroke-width="6"/>', desc: "象人正面站立、双臂张开之形，寓意'大'。", cat: "象形·人体" },
+  "天": { svg: '<circle cx="40" cy="16" r="14" fill="none" stroke="#1a0f0a" stroke-width="5"/><path d="M40 30 L40 68 M18 46 L62 46" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "人之上为天，突出头部以示头顶之天。", cat: "会意·人体" },
+  "目": { svg: '<rect x="16" y="18" width="48" height="44" rx="8" fill="none" stroke="#1a0f0a" stroke-width="5"/><circle cx="40" cy="40" r="12" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象眼睛之形，外为眼眶，内为眼珠。", cat: "象形·人体" },
+  "耳": { svg: '<path d="M12 22 Q28 10 36 32 Q32 56 12 68" fill="none" stroke="#1a0f0a" stroke-width="5"/><path d="M36 28 Q52 24 58 46" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象耳朵轮廓之形。", cat: "象形·人体" },
+  "口": { svg: '<rect x="20" y="22" width="40" height="36" rx="4" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象张开的嘴之形。", cat: "象形·人体" },
+  "手": { svg: '<path d="M18 18 L18 58 M18 28 L6 20 M18 32 L6 34 M18 40 L6 50 M18 48 L10 62" fill="none" stroke="#1a0f0a" stroke-width="5" stroke-linecap="round"/>', desc: "象手掌之形，五指分开。", cat: "象形·人体" },
+  "足": { svg: '<circle cx="34" cy="24" r="14" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="48" y1="24" x2="58" y2="64" stroke="#1a0f0a" stroke-width="5"/>', desc: "上为膝盖关节，下为脚掌。", cat: "象形·人体" },
+  "心": { svg: '<path d="M40 16 Q20 24 20 42 Q20 60 40 68 Q60 60 60 42 Q60 24 40 16Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象心脏之形。古人以心为思维器官。", cat: "象形·人体" },
+  "女": { svg: '<path d="M40 6 L40 68 M22 26 L58 58 M58 26 L22 58" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象女子跪坐之形，双手交叉于胸前。", cat: "象形·人体" },
+  "子": { svg: '<circle cx="40" cy="16" r="14" fill="none" stroke="#1a0f0a" stroke-width="5"/><path d="M40 30 L40 58 M24 42 L56 42" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象婴儿之形，大头、双臂、襁褓之中。", cat: "象形·人体" },
 
-  // Plants
-  "木": { svg: '<line x1="40" y1="10" x2="40" y2="60" stroke="#2c1810" stroke-width="3.5"/><path d="M15 30 L40 15 L65 30" fill="none" stroke="#2c1810" stroke-width="2.5"/><path d="M10 50 L40 35 L70 50" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象树木之形，上为枝叶，下为根。", cat: "象形·植物" },
-  "林": { svg: '<line x1="22" y1="15" x2="22" y2="60" stroke="#2c1810" stroke-width="2.5"/><line x1="58" y1="15" x2="58" y2="60" stroke="#2c1810" stroke-width="2.5"/><path d="M5 30 L22 18 L35 28" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M42 30 L58 18 L72 28" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "两木并立为林，表示树木众多。", cat: "会意·植物" },
-  "森": { svg: '<line x1="22" y1="15" x2="22" y2="55" stroke="#2c1810" stroke-width="2"/><line x1="58" y1="15" x2="58" y2="55" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="22" x2="40" y2="60" stroke="#2c1810" stroke-width="2"/><path d="M5 25 L22 15 L35 24" fill="none" stroke="#2c1810" stroke-width="1.5"/>', desc: "三木为森，表示森林茂密。", cat: "会意·植物" },
-  "禾": { svg: '<line x1="40" y1="10" x2="40" y2="60" stroke="#2c1810" stroke-width="3"/><path d="M25 35 L10 25" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M55 35 L70 25" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="40" cy="22" r="12" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象谷穗下垂之形，上为穗，下为茎根。", cat: "象形·植物" },
-  "果": { svg: '<line x1="40" y1="10" x2="40" y2="55" stroke="#2c1810" stroke-width="2.5"/><circle cx="35" cy="22" r="9" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="45" cy="28" r="7" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="38" cy="36" r="8" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "树上结有果实，圆圈代表果子。", cat: "象形·植物" },
+  // ── Plants ──
+  "木": { svg: '<line x1="40" y1="6" x2="40" y2="66" stroke="#1a0f0a" stroke-width="6"/><path d="M12 32 L40 12 L68 32" fill="none" stroke="#1a0f0a" stroke-width="5"/><path d="M6 52 L40 30 L74 52" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象树木之形，上为枝叶，下为树根。", cat: "象形·植物" },
+  "禾": { svg: '<line x1="40" y1="6" x2="40" y2="64" stroke="#1a0f0a" stroke-width="5"/><path d="M22 36 L6 24" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M58 36 L74 24" fill="none" stroke="#1a0f0a" stroke-width="4"/><ellipse cx="40" cy="20" rx="16" ry="12" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象谷穗下垂之形，上为穗，下为茎根。", cat: "象形·植物" },
 
-  // Abstract concepts
-  "上": { svg: '<line x1="10" y1="50" x2="70" y2="50" stroke="#2c1810" stroke-width="3"/><line x1="10" y1="18" x2="10" y2="50" stroke="#2c1810" stroke-width="2.5"/>', desc: "一横为基准线，短横在上，表示上方。", cat: "指事" },
-  "下": { svg: '<line x1="10" y1="18" x2="70" y2="18" stroke="#2c1810" stroke-width="3"/><line x1="10" y1="18" x2="10" y2="50" stroke="#2c1810" stroke-width="2.5"/>', desc: "一横为基准线，短横在下，表示下方。", cat: "指事" },
-  "中": { svg: '<rect x="15" y="15" width="50" height="50" fill="none" stroke="#2c1810" stroke-width="2.5"/><line x1="40" y1="15" x2="40" y2="10" stroke="#2c1810" stroke-width="2.5"/><line x1="40" y1="65" x2="40" y2="70" stroke="#2c1810" stroke-width="2.5"/>', desc: "旗帜立于中央，引申为中间、正中。", cat: "指事" },
-  "一": { svg: '<line x1="15" y1="40" x2="65" y2="40" stroke="#2c1810" stroke-width="4"/>', desc: "一横表示数字一，最原始的计数符号。", cat: "指事" },
-  "二": { svg: '<line x1="15" y1="25" x2="65" y2="25" stroke="#2c1810" stroke-width="3"/><line x1="15" y1="55" x2="65" y2="55" stroke="#2c1810" stroke-width="3"/>', desc: "两横表示数字二。", cat: "指事" },
-  "三": { svg: '<line x1="15" y1="18" x2="65" y2="18" stroke="#2c1810" stroke-width="2.5"/><line x1="15" y1="40" x2="65" y2="40" stroke="#2c1810" stroke-width="2.5"/><line x1="15" y1="62" x2="65" y2="62" stroke="#2c1810" stroke-width="2.5"/>', desc: "三横表示数字三。", cat: "指事" },
+  // ── Abstract ──
+  "上": { svg: '<line x1="8" y1="52" x2="72" y2="52" stroke="#1a0f0a" stroke-width="5"/><line x1="8" y1="16" x2="8" y2="52" stroke="#1a0f0a" stroke-width="5"/>', desc: "一横为基准，短横在上方，表示'上'。", cat: "指事" },
+  "下": { svg: '<line x1="8" y1="16" x2="72" y2="16" stroke="#1a0f0a" stroke-width="5"/><line x1="8" y1="16" x2="8" y2="52" stroke="#1a0f0a" stroke-width="5"/>', desc: "一横为基准，短横在下方，表示'下'。", cat: "指事" },
+  "中": { svg: '<rect x="14" y="12" width="52" height="52" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="12" x2="40" y2="8" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="64" x2="40" y2="72" stroke="#1a0f0a" stroke-width="5"/>', desc: "旗帜立于中央，引申为中间、正中。", cat: "指事" },
+  "一": { svg: '<line x1="12" y1="40" x2="68" y2="40" stroke="#1a0f0a" stroke-width="7"/>', desc: "一横表示数字一，最原始的计数符号。", cat: "指事" },
+  "二": { svg: '<line x1="12" y1="24" x2="68" y2="24" stroke="#1a0f0a" stroke-width="5"/><line x1="12" y1="56" x2="68" y2="56" stroke="#1a0f0a" stroke-width="5"/>', desc: "两横表示数字二。", cat: "指事" },
+  "三": { svg: '<line x1="12" y1="16" x2="68" y2="16" stroke="#1a0f0a" stroke-width="4"/><line x1="12" y1="40" x2="68" y2="40" stroke="#1a0f0a" stroke-width="4"/><line x1="12" y1="64" x2="68" y2="64" stroke="#1a0f0a" stroke-width="4"/>', desc: "三横表示数字三。", cat: "指事" },
 
-  // Compound ideograms
-  "好": { svg: '<path d="M22 10 L22 55 M14 22 L26 22 L22 30 L18 30Z" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="57" cy="20" r="9" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M57 29 L57 50 M48 38 L66 38" fill="none" stroke="#2c1810" stroke-width="1.5"/>', desc: "女（左）+ 子（右），女子怀抱婴儿为"好"，寓意美好。", cat: "会意" },
-  "休": { svg: '<line x1="22" y1="12" x2="22" y2="55" stroke="#2c1810" stroke-width="2.5"/><path d="M8 32 L22 18 L32 28" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M50 58 Q60 25 60 25 Q60 25 70 58" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "人（右）靠在树（左）旁，表示休息。", cat: "会意" },
-  "男": { svg: '<rect x="15" y="12" width="30" height="25" fill="none" stroke="#2c1810" stroke-width="2"/><line x1="30" y1="12" x2="30" y2="37" stroke="#2c1810" stroke-width="1.5"/><path d="M50 42 Q58 10 58 10 Q58 10 66 42" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "田（左）+ 力（右），田间出力者为男。", cat: "会意" },
-  "见": { svg: '<rect x="18" y="12" width="30" height="24" rx="4" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="33" cy="24" r="6" fill="none" stroke="#2c1810" stroke-width="1.5"/><path d="M40 55 Q50 20 50 20 Q50 20 58 55" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "目（上）+ 人（下），人睁大眼睛为"见"。", cat: "会意" },
-  "林": { svg: '<line x1="22" y1="15" x2="22" y2="60" stroke="#2c1810" stroke-width="2.5"/><line x1="58" y1="15" x2="58" y2="60" stroke="#2c1810" stroke-width="2.5"/><path d="M5 30 L22 18 L35 28" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M42 30 L58 18 L72 28" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "两木并立为林，表示树木众多。", cat: "会意·植物" },
+  // ── Compound ──
+  "好": { svg: '<path d="M20 8 L20 56 M12 22 L28 22 L22 32 L18 32Z" fill="none" stroke="#1a0f0a" stroke-width="3"/><circle cx="58" cy="20" r="10" fill="none" stroke="#1a0f0a" stroke-width="3.5"/><path d="M58 30 L58 54 M48 40 L68 40" fill="none" stroke="#1a0f0a" stroke-width="3"/>', desc: "女（左）+子（右），女子怀抱婴儿为'好'，寓意美好。", cat: "会意" },
+  "休": { svg: '<line x1="20" y1="10" x2="20" y2="58" stroke="#1a0f0a" stroke-width="5"/><path d="M6 32 L20 16 L34 28" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M50 62 Q62 18 62 18 Q62 18 74 62" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "人靠在树旁为'休'，表示休息。", cat: "会意" },
+  "男": { svg: '<rect x="12" y="10" width="32" height="28" fill="none" stroke="#1a0f0a" stroke-width="3"/><line x1="28" y1="10" x2="28" y2="38" stroke="#1a0f0a" stroke-width="2.5"/><path d="M50 44 Q60 8 60 8 Q60 8 70 44" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "田+力=男，田里出力劳动的人。", cat: "会意" },
+  "见": { svg: '<rect x="16" y="8" width="34" height="26" rx="4" fill="none" stroke="#1a0f0a" stroke-width="3.5"/><circle cx="33" cy="21" r="7" fill="none" stroke="#1a0f0a" stroke-width="3"/><path d="M40 56 Q52 16 52 16 Q52 16 62 56" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "目+人=见，人睁大眼睛为'见'。", cat: "会意" },
 
-  // More common chars
-  "王": { svg: '<line x1="15" y1="20" x2="65" y2="20" stroke="#2c1810" stroke-width="3"/><line x1="15" y1="40" x2="65" y2="40" stroke="#2c1810" stroke-width="3"/><line x1="15" y1="60" x2="65" y2="60" stroke="#2c1810" stroke-width="3"/><line x1="40" y1="20" x2="40" y2="60" stroke="#2c1810" stroke-width="3"/>', desc: "三横一竖，贯通天地人者为王。", cat: "会意" },
-  "玉": { svg: '<line x1="15" y1="15" x2="65" y2="15" stroke="#2c1810" stroke-width="2"/><line x1="15" y1="35" x2="65" y2="35" stroke="#2c1810" stroke-width="2"/><line x1="15" y1="55" x2="65" y2="55" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="15" x2="40" y2="55" stroke="#2c1810" stroke-width="2.5"/>', desc: "三横一竖贯串玉片，象一串玉。", cat: "象形" },
-  "示": { svg: '<line x1="15" y1="15" x2="65" y2="15" stroke="#2c1810" stroke-width="2.5"/><line x1="15" y1="35" x2="65" y2="35" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="15" x2="40" y2="60" stroke="#2c1810" stroke-width="2.5"/><path d="M32 45 L40 60 L48 45" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象祭祀用的神主牌位之形。", cat: "象形" },
-  "龙": { svg: '<path d="M15 45 Q30 10 50 15 Q65 10 65 35 Q62 45 55 50 Q45 60 35 55 Q25 50 15 45Z" fill="none" stroke="#2c1810" stroke-width="2.5"/><circle cx="55" cy="25" r="4" fill="#2c1810"/>', desc: "象龙之形，头有角、身蜿蜒，古代神话神兽。", cat: "象形·动物" },
-  "凤": { svg: '<circle cx="35" cy="25" r="10" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M42 16 L55 8 L50 18 L65 12 L55 22" fill="none" stroke="#2c1810" stroke-width="1.5"/><path d="M25 35 L20 65 M45 35 L50 65" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象凤凰之形，头有冠、长尾华丽。", cat: "象形·动物" },
-  "门": { svg: '<rect x="12" y="15" width="56" height="55" fill="none" stroke="#2c1810" stroke-width="2.5"/><line x1="40" y1="15" x2="40" y2="70" stroke="#2c1810" stroke-width="2"/>', desc: "象两扇门的形状。", cat: "象形" },
-  "车": { svg: '<line x1="10" y1="55" x2="70" y2="55" stroke="#2c1810" stroke-width="2.5"/><circle cx="22" cy="55" r="8" fill="none" stroke="#2c1810" stroke-width="2"/><circle cx="58" cy="55" r="8" fill="none" stroke="#2c1810" stroke-width="2"/><line x1="40" y1="15" x2="40" y2="55" stroke="#2c1810" stroke-width="2.5"/>', desc: "象古代战车之形，有轮有轴有车厢。", cat: "象形" },
-  "刀": { svg: '<path d="M15 20 L45 45 L55 38 L28 14Z" fill="none" stroke="#2c1810" stroke-width="2.5"/>', desc: "象刀之形，有刃有柄。", cat: "象形" },
-  "弓": { svg: '<path d="M15 65 Q15 20 40 15 Q65 20 65 65" fill="none" stroke="#2c1810" stroke-width="3"/>', desc: "象弓之形，弯曲而有弹性。", cat: "象形" },
-  "矢": { svg: '<line x1="40" y1="8" x2="40" y2="68" stroke="#2c1810" stroke-width="2.5"/><path d="M30 20 L50 15" fill="none" stroke="#2c1810" stroke-width="2"/><path d="M30 24 L50 19" fill="none" stroke="#2c1810" stroke-width="2"/>', desc: "象箭矢之形，上为箭头，下为尾羽。", cat: "象形" },
-  "网": { svg: '<rect x="12" y="15" width="56" height="50" fill="none" stroke="#2c1810" stroke-width="2.5"/><line x1="40" y1="15" x2="40" y2="65" stroke="#2c1810" stroke-width="1.5"/><line x1="12" y1="40" x2="68" y2="40" stroke="#2c1810" stroke-width="1.5"/>', desc: "象渔网之形，交叉编织。", cat: "象形" },
+  // ── More common ──
+  "王": { svg: '<line x1="12" y1="18" x2="68" y2="18" stroke="#1a0f0a" stroke-width="5"/><line x1="12" y1="40" x2="68" y2="40" stroke="#1a0f0a" stroke-width="5"/><line x1="12" y1="62" x2="68" y2="62" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="18" x2="40" y2="62" stroke="#1a0f0a" stroke-width="5"/>', desc: "三横一竖，贯通天地人者为王。", cat: "会意" },
+  "玉": { svg: '<line x1="12" y1="14" x2="68" y2="14" stroke="#1a0f0a" stroke-width="4"/><line x1="12" y1="36" x2="68" y2="36" stroke="#1a0f0a" stroke-width="4"/><line x1="12" y1="58" x2="68" y2="58" stroke="#1a0f0a" stroke-width="4"/><line x1="40" y1="14" x2="40" y2="58" stroke="#1a0f0a" stroke-width="5"/>', desc: "三横一竖贯串玉片，象一串玉。", cat: "象形" },
+  "示": { svg: '<line x1="12" y1="14" x2="68" y2="14" stroke="#1a0f0a" stroke-width="5"/><line x1="12" y1="36" x2="68" y2="36" stroke="#1a0f0a" stroke-width="4"/><line x1="40" y1="14" x2="40" y2="66" stroke="#1a0f0a" stroke-width="5"/><path d="M30 46 L40 66 L50 46" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象祭祀用的神主牌位之形。", cat: "象形" },
+  "龙": { svg: '<path d="M12 48 Q28 6 52 12 Q68 6 68 34 Q64 46 56 52 Q44 64 32 56 Q22 50 12 48Z" fill="none" stroke="#1a0f0a" stroke-width="5"/><circle cx="56" cy="24" r="5" fill="#1a0f0a"/>', desc: "象龙之形，头有角、身蜿蜒。", cat: "象形·动物" },
+  "凤": { svg: '<circle cx="34" cy="24" r="12" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M42 14 L58 4 L52 16 L68 8 L56 24" fill="none" stroke="#1a0f0a" stroke-width="3.5"/><path d="M22 36 L18 68 M48 36 L52 68" fill="none" stroke="#1a0f0a" stroke-width="3.5"/>', desc: "象凤凰之形，头有冠、长尾华丽。", cat: "象形·动物" },
+  "门": { svg: '<rect x="10" y="12" width="60" height="60" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="12" x2="40" y2="72" stroke="#1a0f0a" stroke-width="4"/>', desc: "象两扇门的形状。", cat: "象形" },
+  "车": { svg: '<line x1="8" y1="56" x2="72" y2="56" stroke="#1a0f0a" stroke-width="5"/><circle cx="20" cy="56" r="10" fill="none" stroke="#1a0f0a" stroke-width="4"/><circle cx="60" cy="56" r="10" fill="none" stroke="#1a0f0a" stroke-width="4"/><line x1="40" y1="12" x2="40" y2="56" stroke="#1a0f0a" stroke-width="5"/>', desc: "象古代战车之形，有轮、轴、车厢。", cat: "象形" },
+  "刀": { svg: '<path d="M12 18 L48 46 L56 40 L26 10Z" fill="none" stroke="#1a0f0a" stroke-width="5"/>', desc: "象刀之形，有刃有柄。", cat: "象形" },
+  "弓": { svg: '<path d="M12 68 Q12 16 40 12 Q68 16 68 68" fill="none" stroke="#1a0f0a" stroke-width="6"/>', desc: "象弓之形，弯曲而有弹性。", cat: "象形" },
+  "矢": { svg: '<line x1="40" y1="4" x2="40" y2="72" stroke="#1a0f0a" stroke-width="5"/><path d="M28 18 L52 12" fill="none" stroke="#1a0f0a" stroke-width="4"/><path d="M28 22 L52 16" fill="none" stroke="#1a0f0a" stroke-width="4"/>', desc: "象箭矢之形，上为箭头，下为尾羽。", cat: "象形" },
+  "网": { svg: '<rect x="10" y="12" width="60" height="56" fill="none" stroke="#1a0f0a" stroke-width="5"/><line x1="40" y1="12" x2="40" y2="68" stroke="#1a0f0a" stroke-width="3"/><line x1="10" y1="40" x2="70" y2="40" stroke="#1a0f0a" stroke-width="3"/>', desc: "象渔网之形，交叉编织。", cat: "象形" },
 };
 
-// Populate quick chars and full grid
 function init() {
-  const quickCharsDiv = document.getElementById('quickChars');
-  const charGridDiv = document.getElementById('charGrid');
-  const popularChars = "日月山水火雨人目手女子马鱼牛羊虎林木上下一二三好休见王";
+  var quickCharsDiv = document.getElementById('quickChars');
+  var charGridDiv = document.getElementById('charGrid');
+  var popularChars = '日月山水火雨人目手女子马鱼牛羊虎林木上下一二三好休见王';
+  var count = Object.keys(oracleData).length;
+
+  // Update count in title
+  var title = document.querySelector('#charGrid').previousElementSibling;
+  if (title) title.textContent = title.textContent.replace('{{count}}', count);
 
   // Quick chars
-  for (const ch of popularChars) {
+  for (var i = 0; i < popularChars.length; i++) {
+    var ch = popularChars[i];
     if (!oracleData[ch]) continue;
-    const btn = document.createElement('button');
+    var btn = document.createElement('button');
     btn.className = 'quick-char';
     btn.textContent = ch;
     btn.title = ch;
-    btn.addEventListener('click', () => search(ch));
+    (function(c) { btn.addEventListener('click', function() { search(c); }); })(ch);
     quickCharsDiv.appendChild(btn);
   }
 
   // Full grid
-  for (const [ch, data] of Object.entries(oracleData)) {
-    const card = document.createElement('div');
+  var keys = Object.keys(oracleData);
+  for (var i = 0; i < keys.length; i++) {
+    var ch = keys[i];
+    var data = oracleData[ch];
+    var card = document.createElement('div');
     card.className = 'char-card';
-    card.innerHTML = `
-      <div class="modern">${ch}</div>
-      <div class="ancient"><svg viewBox="0 0 80 80">${data.svg}</svg></div>
-      <div class="meaning">${data.cat}</div>
-    `;
-    card.addEventListener('click', () => search(ch));
+    card.innerHTML = '<div class="modern">' + ch + '</div>' +
+      '<div class="ancient"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">' + data.svg + '</svg></div>' +
+      '<div class="meaning">' + data.cat + '</div>';
+    (function(c) { card.addEventListener('click', function() { search(c); }); })(ch);
     charGridDiv.appendChild(card);
   }
 }
 
 function search(ch) {
-  const input = document.getElementById('searchInput');
-  const card = document.getElementById('resultCard');
-
+  var input = document.getElementById('searchInput');
+  var card = document.getElementById('resultCard');
   input.value = ch;
-  const data = oracleData[ch];
+  var data = oracleData[ch];
 
   if (data) {
-    card.innerHTML = `
-      <div class="oracle-char-display">
-        <svg viewBox="0 0 80 80">${data.svg}</svg>
-      </div>
-      <div class="result-modern">现代汉字：<span>${ch}</span></div>
-      <div class="result-desc">${data.desc}</div>
-      <div class="result-category">${data.cat}</div>
-    `;
+    card.innerHTML = '<div class="oracle-display">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">' + data.svg + '</svg>' +
+      '</div>' +
+      '<div class="result-char">' + ch + '</div>' +
+      '<div class="result-desc">' + data.desc + '</div>' +
+      '<div class="result-cat">' + data.cat + '</div>';
   } else {
-    card.innerHTML = `
-      <div class="not-found">
-        <p>😔 数据库中暂无此字</p>
-        <p class="hint">目前收录了 ${Object.keys(oracleData).length} 个常见字的甲骨文资料<br>试试查询：日、月、人、马、鱼、山、水...</p>
-      </div>
-    `;
+    card.innerHTML = '<div class="not-found">' +
+      '<p>数据库中暂无此字</p>' +
+      '<p class="hint">目前已收录 ' + count + ' 个常见字<br>试试：日、月、人、马、鱼、山、水……</p>' +
+      '</div>';
   }
-
-  card.classList.add('show');
+  card.className = 'result-card show';
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+var count = Object.keys(oracleData).length;
+
 // Events
-document.getElementById('searchBtn').addEventListener('click', () => {
-  const ch = document.getElementById('searchInput').value.trim();
-  if (!ch) { showToast('请先输入一个汉字'); return; }
-  if (ch.length > 1) { showToast('每次只能查询一个字哦'); return; }
+document.getElementById('searchBtn').addEventListener('click', function() {
+  var ch = document.getElementById('searchInput').value.trim();
+  if (!ch) { toast('请先输入一个汉字'); return; }
+  if (ch.length > 1) { toast('每次只能查询一个字哦'); return; }
   search(ch);
 });
 
-document.getElementById('searchInput').addEventListener('keydown', (e) => {
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
-    const ch = e.target.value.trim();
-    if (!ch) { showToast('请先输入一个汉字'); return; }
-    if (ch.length > 1) { showToast('每次只能查询一个字哦'); return; }
+    var ch = e.target.value.trim();
+    if (!ch) { toast('请先输入一个汉字'); return; }
+    if (ch.length > 1) { toast('每次只能查询一个字哦'); return; }
     search(ch);
   }
 });
 
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show';
+  setTimeout(function() { t.className = 'toast'; }, 2000);
 }
 
 init();
